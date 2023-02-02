@@ -2,15 +2,29 @@ import './App.css';
 import {useEffect, useState} from "react";
 import API from "./services/API";
 import Sidebar from "./components/Sidebar";
+import PostLayout from "./components/PostLayout";
 
 function App() {
     const [allTags, setAllTags] = useState([])
+    const [allPosts, setAllPosts] = useState([])
+    const [selectedTag, setSelectedTag] = useState("")
+    const [filteredPost, setFilteredPost] = useState([])
 
     useEffect(() => {
         API.getAllTags().then((data) => {
             setAllTags(data)
         })
+        API.getAllPosts().then((data) => {
+            setAllPosts(data)
+        })
     }, [])
+
+    useEffect(() => {
+        let filterd = allPosts.filter((post) => {
+            return post.tags.includes(selectedTag)
+        })
+        console.log(filterd)
+    }, [selectedTag])
 
     return (
         <>
@@ -20,10 +34,11 @@ function App() {
             <div className="container">
                 <div className="row">
                     <div className="col-2">
-                        {allTags.length > 0 && <Sidebar tags={allTags}/>}
+                        {allTags.length > 0 && <Sidebar tags={allTags} selectedTag={setSelectedTag}/>}
                     </div>
                     <div className="col-10">
-
+                        <p className="my-5 text-center">Choose category from sidebar:</p>
+                        <PostLayout posts={filteredPost}/>
                     </div>
                 </div>
             </div>
