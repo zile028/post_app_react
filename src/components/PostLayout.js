@@ -1,9 +1,20 @@
 import React from 'react';
+import Post from "./Post";
 
-function PostLayout({posts}) {
+function PostLayout({tag, allPosts, selectedTag}) {
+    // const renderPost = () => posts.map((post, index) => {
+    //     return <Post selectedTag={selectedTag} key={index} post={post}/>
+    // })
+
+    const renderPost = () => allPosts.map((post, index) => {
+        if (post.tags.includes(tag)) {
+            return <Post selectedTag={selectedTag} key={index} post={post}/>
+        }
+    })
+
     return (
-        <div>
-            
+        <div className="row">
+            {renderPost()}
         </div>
     );
 }
