@@ -20,11 +20,15 @@ function App() {
     }, [])
 
     useEffect(() => {
-        let filterd = allPosts.filter((post) => {
-            return post.tags.includes(selectedTag)
-        })
-        setFilteredPost(filterd)
-    }, [selectedTag])
+        if (selectedTag) {
+            let filterd = allPosts.filter((post) => {
+                return post.tags.includes(selectedTag)
+            })
+            setFilteredPost(filterd)
+        } else {
+            setFilteredPost(allPosts)
+        }
+    }, [selectedTag, allPosts])
 
     return (
         <>
@@ -41,8 +45,8 @@ function App() {
                         {filteredPost.length === 0 ?
                             <p className="my-5 text-center">Choose category from sidebar:</p>
                             :
-                            // <PostLayout posts={filteredPost} selectedTag={setSelectedTag}/>
-                            <PostLayout tag={selectedTag} allPosts={allPosts} selectedTag={setSelectedTag}/>
+                            <PostLayout posts={filteredPost} selectedTag={setSelectedTag}/>
+                            // <PostLayout tag={selectedTag} allPosts={allPosts} selectedTag={setSelectedTag}/>
                         }
                     </div>
                 </div>
